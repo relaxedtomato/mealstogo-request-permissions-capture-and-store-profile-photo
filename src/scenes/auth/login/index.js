@@ -1,8 +1,17 @@
-import React from 'react';
-import { Text, SafeAreaView, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import {
+  SafeAreaView,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import { navigationPropTypes } from '~/types';
 import { sectionHeader, Spacing, Colors } from '~/styles';
+import BackButton from '~/components/BackButton';
+import EmailInput from '../components/EmailInput';
+import PasswordInput from '../components/PasswordInput';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,12 +39,28 @@ const styles = StyleSheet.create({
   },
 });
 
-const Login = ({ navigation }) => (
-  <SafeAreaView>
-    <Text> Login </Text>
-    <Text onPress={() => navigation.goBack()}> Back to Welcome </Text>
-  </SafeAreaView>
-);
+const Login = ({ navigation }) => {
+  const [email, onChangeEmail] = useState('');
+  const [password, onChangePassword] = useState('');
+
+  const onSubmit = () => {
+    // TODO: Integrate Firebase Auth
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.formContainer}>
+        <Text style={styles.sectionHeader}>Log In</Text>
+        <EmailInput onChangeEmail={onChangeEmail} />
+        <PasswordInput onChangePassword={onChangePassword} />
+        <TouchableOpacity style={styles.button} onPress={onSubmit}>
+          <Text style={styles.buttonText}>LOG IN</Text>
+        </TouchableOpacity>
+      </View>
+      <BackButton navigation={navigation} />
+    </SafeAreaView>
+  );
+};
 
 Login.propTypes = {
   navigation: navigationPropTypes.isRequired,
