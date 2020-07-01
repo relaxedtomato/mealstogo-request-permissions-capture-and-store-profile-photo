@@ -1,8 +1,18 @@
 import React from 'react';
-import { Dimensions, Text, SafeAreaView, StyleSheet } from 'react-native';
+import {
+  Dimensions,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 import { Colors, Typography, Spacing } from '~/styles';
 import { navigationPropTypes } from '~/types';
+
+const welcomeImage = require('~/assets/images/welcome.jpg');
 
 const styles = StyleSheet.create({
   imageBackground: {
@@ -48,9 +58,25 @@ const styles = StyleSheet.create({
 
 const Welcome = ({ navigation }) => (
   <SafeAreaView>
-    <Text> Welcome </Text>
-    <Text onPress={() => navigation.navigate('SignUp')}> Sign up </Text>
-    <Text onPress={() => navigation.navigate('Login')}> Log in </Text>
+    <ImageBackground
+      source={welcomeImage}
+      style={styles.imageBackground}
+      opacity={0.8}
+    >
+      <Text style={styles.welcome}>Meals To Go</Text>
+      <View style={styles.linkContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('SignUp')}
+          style={styles.signUpButton}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.signUp}>Signup with Email</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.login}>Have an account? Log In.</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   </SafeAreaView>
 );
 
