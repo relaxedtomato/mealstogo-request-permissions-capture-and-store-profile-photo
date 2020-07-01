@@ -1,8 +1,18 @@
-import React from 'react';
-import { Text, SafeAreaView, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import {
+  SafeAreaView,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { TextField } from 'react-native-material-textfield';
 
 import { sectionHeader, Spacing, Colors } from '~/styles';
+import BackButton from '~/components/BackButton';
 import { navigationPropTypes } from '~/types';
+import EmailInput from '../components/EmailInput';
+import PasswordInput from '../components/PasswordInput';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,15 +40,40 @@ const styles = StyleSheet.create({
   sectionHeader,
 });
 
-const SignUp = ({ navigation }) => (
-  <SafeAreaView>
-    <Text> Sign up </Text>
-    <Text onPress={() => navigation.goBack()}> Back to Welcome </Text>
-  </SafeAreaView>
-);
+const Signup = ({ navigation }) => {
+  const [email, onChangeEmail] = useState('');
+  const [password, onChangePassword] = useState('');
+  const [name, onChangeName] = useState('');
 
-SignUp.propTypes = {
+  const onSubmit = () => {
+    // TODO: Integrate Firebase Auth
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.formContainer}>
+        <Text style={styles.sectionHeader}>Sign Up</Text>
+        <TextField
+          autoCapitalize="none"
+          autoCorrect={false}
+          enablesReturnKeyAutomatically
+          onChangeText={onChangeName}
+          returnKeyType="next"
+          label="What's Your Name"
+        />
+        <EmailInput onChangeEmail={onChangeEmail} />
+        <PasswordInput onChangePassword={onChangePassword} />
+        <TouchableOpacity style={styles.button} onPress={onSubmit}>
+          <Text style={styles.buttonText}>SIGN UP</Text>
+        </TouchableOpacity>
+      </View>
+      <BackButton navigation={navigation} />
+    </SafeAreaView>
+  );
+};
+
+Signup.propTypes = {
   navigation: navigationPropTypes.isRequired,
 };
 
-export default SignUp;
+export default Signup;
