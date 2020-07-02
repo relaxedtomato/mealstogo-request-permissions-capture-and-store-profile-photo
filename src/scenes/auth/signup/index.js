@@ -7,12 +7,14 @@ import {
   View,
 } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
+import Firebase from '~/services/Firebase';
 
 import { sectionHeader, Spacing, Colors } from '~/styles';
 import BackButton from '~/components/BackButton';
 import { navigationPropTypes } from '~/types';
 import EmailInput from '../components/EmailInput';
 import PasswordInput from '../components/PasswordInput';
+import createAlert from '../components/failedAuth';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,8 +47,20 @@ const Signup = ({ navigation }) => {
   const [password, onChangePassword] = useState('');
   const [name, onChangeName] = useState('');
 
-  const onSubmit = () => {
-    // TODO: Integrate Firebase Auth
+  const onSubmit = async () => {
+    try {
+      const { user } = await Firebase.createUserWithEmailAndPassword({
+        email,
+        password,
+      });
+
+      if (user) {
+        const { uid } = user;
+        await Firebase.createUser({ email, uid, name });
+      }
+    } catch (firebaseError) {
+      createAlert(firebaseError);
+    }
   };
 
   return (

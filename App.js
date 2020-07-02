@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import Firebase from '~/services/Firebase';
 import Home from '~/scenes/home';
 import Search from '~/scenes/search';
 import Profile from '~/scenes/profile';
@@ -60,8 +61,8 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      fontLoaded: false,
-      // TODO: temporary state variable for testing
+      isFontLoaded: false,
+      isAuthCheckCompleted: false,
       user: false,
     };
   }
@@ -78,12 +79,27 @@ export default class App extends React.Component {
       'oswald-regular': require('./assets/fonts/Oswald-Regular.ttf'),
       /* eslint-enable */
     });
-    this.setState({ fontLoaded: true });
+    this.setState({ isFontLoaded: true });
+
+    try {
+      Firebase.onAuthStateChanged(user => {
+        this.setState({
+          isAuthCheckCompleted: true,
+        });
+
+        if (user) {
+          this.setState({ user });
+        }
+      });
+    } catch (firebaseError) {
+      // eslint-disable-next-line
+      console.log(firebaseError);
+    }
   }
 
   render() {
-    const { fontLoaded, user } = this.state;
-    return fontLoaded ? (
+    const { isAuthCheckCompleted, isFontLoaded, user } = this.state;
+    return isFontLoaded && isAuthCheckCompleted ? (
       <NavigationContainer>
         <RootStack.Navigator initialRouteName="App" headerMode="none">
           {user ? (

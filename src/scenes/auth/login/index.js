@@ -7,11 +7,13 @@ import {
   View,
 } from 'react-native';
 
+import Firebase from '~/services/Firebase';
 import { navigationPropTypes } from '~/types';
 import { sectionHeader, Spacing, Colors } from '~/styles';
 import BackButton from '~/components/BackButton';
 import EmailInput from '../components/EmailInput';
 import PasswordInput from '../components/PasswordInput';
+import createAlert from '../components/failedAuth';
 
 const styles = StyleSheet.create({
   container: {
@@ -43,8 +45,15 @@ const Login = ({ navigation }) => {
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
 
-  const onSubmit = () => {
-    // TODO: Integrate Firebase Auth
+  const onSubmit = async () => {
+    try {
+      await Firebase.signInWithEmailAndPassword({
+        email,
+        password,
+      });
+    } catch (firebaseError) {
+      createAlert(firebaseError);
+    }
   };
 
   return (
