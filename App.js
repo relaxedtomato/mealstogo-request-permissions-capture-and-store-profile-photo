@@ -89,6 +89,8 @@ export default class App extends React.Component {
 
         if (user) {
           this.setState({ user });
+        } else {
+          this.setState({ user: false });
         }
       });
     } catch (firebaseError) {

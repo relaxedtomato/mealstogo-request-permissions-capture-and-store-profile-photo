@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 
+import Firebase from '~/services/Firebase';
 import { Colors, Spacing, Typography } from '~/styles';
 import ChevronLink from '~/assets/icons/chevron-link.svg';
 import ProfileCircle from '~/assets/icons/profile-circle.svg';
@@ -68,7 +69,8 @@ const Profile = () => {
     {
       label: 'Sign Out',
       onPress: () => {
-        /* TODO: */
+        // TODO: Add Alert to confirm user wants to signout
+        Firebase.signOut();
       },
     },
   ];
