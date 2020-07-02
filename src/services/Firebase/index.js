@@ -22,6 +22,22 @@ const Firebase = {
     firebase.auth().signInWithEmailAndPassword(email, password),
 
   signOut: () => firebase.auth().signOut(),
+
+  updateUser: data =>
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(`${data.uid}`)
+      .update(data),
+
+  currentUser: () => firebase.auth().currentUser,
+
+  getUser: uid =>
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(uid)
+      .get(),
 };
 
 export default Firebase;

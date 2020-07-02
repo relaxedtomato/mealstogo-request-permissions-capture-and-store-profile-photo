@@ -1,5 +1,6 @@
 import React from 'react';
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
 
 import Firebase from '~/services/Firebase';
 import { Colors, Spacing, Typography } from '~/styles';
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ProfileLinks = () => {
+const ProfileLinks = ({ disableOnPress, openModal }) => {
   const profileLinks = [
     {
       label: 'Favorites',
@@ -36,9 +37,7 @@ const ProfileLinks = () => {
     },
     {
       label: 'Location',
-      onPress: () => {
-        /* TODO: Alert for Location Input */
-      },
+      onPress: openModal,
     },
     {
       label: 'Past orders',
@@ -72,11 +71,11 @@ const ProfileLinks = () => {
   ];
 
   return (
-    <View>
+    <>
       {profileLinks.map(({ label, onPress }) => (
         <TouchableOpacity
-          onPress={onPress}
-          opacity={0.2}
+          onPress={() => !disableOnPress && onPress()}
+          activeOpacity={!disableOnPress ? 0.2 : 1}
           style={styles.linkContainer}
           key={label}
         >
@@ -84,8 +83,13 @@ const ProfileLinks = () => {
           <ChevronLink width={20} height={20} fill={Colors.mediumGray} />
         </TouchableOpacity>
       ))}
-    </View>
+    </>
   );
+};
+
+ProfileLinks.propTypes = {
+  disableOnPress: PropTypes.bool.isRequired,
+  openModal: PropTypes.func.isRequired,
 };
 
 export default ProfileLinks;
