@@ -35,6 +35,23 @@ const Profile = () => {
     getUser();
   }, []);
 
+  async function onSubmitLocationChange() {
+    try {
+      await Firebase.updateUser({
+        uid: user.uid,
+        location: updateLocation,
+      });
+
+      onUpdateUser({
+        ...user,
+        location: updateLocation,
+      });
+    } catch (firebaseError) {
+      // eslint-disable-next-line
+      console.log(firebaseError);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ zIndex: 0 }}>
@@ -48,6 +65,7 @@ const Profile = () => {
         <LocationModal
           closeModal={() => toggleLocationModal(!isLocationModalOpen)}
           onLocationInput={onLocationInput}
+          onSetLocation={onSubmitLocationChange}
           location={updateLocation}
         />
       )}

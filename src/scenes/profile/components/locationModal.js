@@ -27,7 +27,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const LocationModal = ({ closeModal, onLocationInput, location }) => (
+const LocationModal = ({
+  closeModal,
+  onLocationInput,
+  onSetLocation,
+  location,
+}) => (
   <View style={styles.container}>
     <View style={styles.textField}>
       <TextField
@@ -43,7 +48,10 @@ const LocationModal = ({ closeModal, onLocationInput, location }) => (
         <Button
           title="Set Location"
           disabled={location.length === 0}
-          onPress={closeModal}
+          onPress={() => {
+            onSetLocation();
+            closeModal();
+          }}
         />
         <Button
           title="Cancel"
@@ -61,6 +69,7 @@ LocationModal.propTypes = {
   location: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired,
   onLocationInput: PropTypes.func.isRequired,
+  onSetLocation: PropTypes.func.isRequired,
 };
 
 export default LocationModal;

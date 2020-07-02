@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+
 import { Colors, Spacing, Typography } from '~/styles';
 import ProfileCircle from '~/assets/icons/profile-circle.svg';
 
@@ -14,6 +15,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: '30%',
   },
+  profileDetails: Typography.bodyText,
 });
 
 const ProfileDetails = () => (
