@@ -16,7 +16,11 @@ const styles = StyleSheet.create({
 const Profile = () => {
   const [isLocationModalOpen, toggleLocationModal] = useState(false);
   const [updateLocation, onLocationInput] = useState('');
-  const [user, onUpdateUser] = useState({});
+  const [user, onUpdateUser] = useState({
+    name: '',
+    email: '',
+    location: '',
+  });
 
   useEffect(() => {
     const getUser = async () => {
@@ -52,10 +56,12 @@ const Profile = () => {
     }
   }
 
+  const { name, email, location } = user;
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ zIndex: 0 }}>
-        <ProfileDetails />
+        <ProfileDetails name={name} email={email} location={location} />
         <ProfileLinks
           disableOnPress={isLocationModalOpen}
           openModal={() => toggleLocationModal(!isLocationModalOpen)}

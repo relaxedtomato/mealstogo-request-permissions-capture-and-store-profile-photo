@@ -26,7 +26,7 @@ const CUISINES = [
   // },
 ];
 
-const GoogleMaps = {
+const Google = {
   getLocation: async userLocation => {
     const resultsJSON = await fetch(
       `${config.GOOGLE_MAPS_GEOCODE_URL}?address=${userLocation}&key=${config.GOOGLE_MAPS_API_KEY}`
@@ -56,4 +56,4 @@ const GoogleMaps = {
   },
 };
 
-export default GoogleMaps;
+export default Google;
