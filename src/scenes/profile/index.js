@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 
+import Google from '~/services/Google';
 import Firebase from '~/services/Firebase';
 import { Spacing } from '~/styles';
 import ProfileLinks from './components/profileLinks';
@@ -41,14 +42,18 @@ const Profile = () => {
 
   async function onSubmitLocationChange() {
     try {
+      const geoLocation = await Google.getLocation(updateLocation);
+
       await Firebase.updateUser({
         uid: user.uid,
         location: updateLocation,
+        geoLocation,
       });
 
       onUpdateUser({
         ...user,
         location: updateLocation,
+        geoLocation,
       });
     } catch (firebaseError) {
       // eslint-disable-next-line
