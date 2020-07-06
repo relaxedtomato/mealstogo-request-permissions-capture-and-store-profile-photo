@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 
 import Google from '~/services/Google';
 import Firebase from '~/services/Firebase';
+import useUserLocation from '~/hooks/useUserLocation';
 import { Spacing } from '~/styles';
+import { navigationPropTypes } from '~/types';
+
 import ProfileLinks from './components/profileLinks';
 import ProfileDetails from './components/profileDetails';
 import LocationModal from './components/locationModal';
@@ -14,31 +17,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const Profile = () => {
+const Profile = ({ navigation }) => {
   const [isLocationModalOpen, toggleLocationModal] = useState(false);
   const [updateLocation, onLocationInput] = useState('');
-  const [user, onUpdateUser] = useState({
-    name: '',
-    email: '',
-    location: '',
-  });
-
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const { uid } = Firebase.currentUser();
-
-        if (uid) {
-          const userData = await Firebase.getUser(uid);
-          onUpdateUser(userData.data());
-        }
-      } catch (firebaseError) {
-        // eslint-disable-next-line
-        console.log(firebaseError);
-      }
-    };
-    getUser();
-  }, []);
+  const user = useUserLocation(navigation);
 
   async function onSubmitLocationChange() {
     try {
@@ -49,24 +31,23 @@ const Profile = () => {
         location: updateLocation,
         geoLocation,
       });
-
-      onUpdateUser({
-        ...user,
-        location: updateLocation,
-        geoLocation,
-      });
     } catch (firebaseError) {
       // eslint-disable-next-line
       console.log(firebaseError);
     }
   }
 
-  const { name, email, location } = user;
+  const { name, email, location, uid } = user;
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ zIndex: 0 }}>
-        <ProfileDetails name={name} email={email} location={location} />
+        <ProfileDetails
+          name={name}
+          email={email}
+          location={!isLocationModalOpen ? updateLocation || location : ''}
+          uid={uid}
+        />
         <ProfileLinks
           disableOnPress={isLocationModalOpen}
           openModal={() => toggleLocationModal(!isLocationModalOpen)}
@@ -82,6 +63,10 @@ const Profile = () => {
       )}
     </SafeAreaView>
   );
+};
+
+Profile.propTypes = {
+  navigation: navigationPropTypes.isRequired,
 };
 
 export default Profile;

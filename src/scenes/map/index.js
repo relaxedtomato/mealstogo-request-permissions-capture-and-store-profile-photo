@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import PropTypes from 'prop-types';
 
-import RestaurantData from '~/services/RestaurantData';
 import MapMarker from '~/assets/icons/map-marker.svg';
 import BackArrow from '~/assets/icons/back-arrow.svg';
 import { Colors, Spacing } from '~/styles';
-import { navigationPropTypes } from '~/types';
+import { navigationPropTypes, restaurantPropTypes } from '~/types';
 import { ICON_DIMENSIONS } from '~/utils/constants';
 import RestaurantSelected from './components/RestaurantSelected';
 
@@ -28,17 +28,11 @@ const styles = StyleSheet.create({
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 
-const region = {
-  latitude: 37.773972,
-  longitude: -122.431297,
-  latitudeDelta: 0.0922,
-  longitudeDelta: 0.0922 * ASPECT_RATIO,
-};
-
-const Map = ({ navigation }) => {
+const Map = ({ route, navigation }) => {
+  const { geoLocation, restaurantData } = route.params;
   const [activeMarker, updateActiveMarker] = useState({});
   const [markers, updateMarkers] = useState(
-    RestaurantData.results.map(
+    restaurantData.map(
       ({ geometry, place_id: placeId, name, cuisine, image, vicinity }) => ({
         coordinate: {
           latitude: geometry.location.lat,
@@ -53,6 +47,13 @@ const Map = ({ navigation }) => {
       })
     )
   );
+
+  const region = {
+    latitude: geoLocation.lat,
+    longitude: geoLocation.lng,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0922 * ASPECT_RATIO,
+  };
 
   const { width: iconWidth, height: iconHeight } = ICON_DIMENSIONS;
 
@@ -115,6 +116,15 @@ const Map = ({ navigation }) => {
 
 Map.propTypes = {
   navigation: navigationPropTypes.isRequired,
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      geoLocation: PropTypes.shape({
+        lat: PropTypes.number.isRequired,
+        lng: PropTypes.number.isRequired,
+      }),
+      restaurantData: PropTypes.arrayOf(restaurantPropTypes).isRequired,
+    }),
+  }).isRequired,
 };
 
 export default Map;

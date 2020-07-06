@@ -1,10 +1,14 @@
 import React from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
+
 import TopBar from '~/components/TopBar';
-import RestaurantList from './components/RestaurantList';
+import useUserLocation from '~/hooks/useUserLocation';
+import useSearchPlaces from '~/hooks/useSearchPlaces';
 import { Colors } from '~/styles';
-import { TAB_BAR_HEIGHT } from '~/utils/constants';
 import { navigationPropTypes } from '~/types';
+import { TAB_BAR_HEIGHT } from '~/utils/constants';
+
+import RestaurantList from './components/RestaurantList';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,16 +26,26 @@ const styles = StyleSheet.create({
 });
 
 export default function Home({ navigation }) {
+  const { location, geoLocation } = useUserLocation(navigation);
+  const restaurantData = useSearchPlaces(geoLocation);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topbar}>
-        <TopBar openMap={() => navigation.navigate('MapModal')} />
+        <TopBar
+          location={location}
+          openMap={() =>
+            navigation.navigate('MapModal', { geoLocation, restaurantData })
+          }
+        />
       </View>
       <View style={styles.content}>
         <RestaurantList
           openRestaurant={details =>
             navigation.navigate('RestaurantModal', { details })
           }
+          geoLocation={geoLocation}
+          restaurantData={restaurantData}
         />
       </View>
     </SafeAreaView>

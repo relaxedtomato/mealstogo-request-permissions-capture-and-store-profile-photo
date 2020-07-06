@@ -20,9 +20,9 @@ const styles = StyleSheet.create({
   location: Typography.bodyText,
 });
 
-const TopBar = ({ openMap }) => (
+const TopBar = ({ location, openMap }) => (
   <View style={styles.container}>
-    <Text style={styles.location}>Silicon Valley</Text>
+    <Text style={styles.location}>{location}</Text>
     <TouchableOpacity onPress={openMap}>
       <Map width={ICON_DIMENSIONS.width} height={ICON_DIMENSIONS.height} />
     </TouchableOpacity>
@@ -31,6 +31,11 @@ const TopBar = ({ openMap }) => (
 
 TopBar.propTypes = {
   openMap: PropTypes.func.isRequired,
+  location: PropTypes.string,
+};
+
+TopBar.defaultProps = {
+  location: '',
 };
 
 export default TopBar;

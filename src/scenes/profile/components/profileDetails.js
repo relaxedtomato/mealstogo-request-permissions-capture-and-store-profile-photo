@@ -31,12 +31,14 @@ const ProfileDetails = ({ name, email, location }) => (
 );
 
 ProfileDetails.propTypes = {
-  name: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  email: PropTypes.string,
   location: PropTypes.string,
 };
 
 ProfileDetails.defaultProps = {
+  name: '',
+  email: '',
   location: '',
 };
 
