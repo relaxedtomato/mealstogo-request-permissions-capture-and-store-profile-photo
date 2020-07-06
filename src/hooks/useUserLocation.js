@@ -1,8 +1,23 @@
 import { useState, useEffect } from 'react';
 import Firebase from '~/services/Firebase';
 
-export const useUserLocation = () => {
+export const useUserLocation = navigation => {
   const [user, onUpdateUser] = useState({});
+  const [focused, onFocus] = useState(true);
+
+  useEffect(() => {
+    const unsubscribeBlur = navigation.addListener('blur', () =>
+      onFocus(false)
+    );
+    const unsubscribeFocus = navigation.addListener('focus', () =>
+      onFocus(true)
+    );
+
+    return () => {
+      unsubscribeBlur();
+      unsubscribeFocus();
+    };
+  }, []);
 
   useEffect(() => {
     async function getUser() {
@@ -10,7 +25,7 @@ export const useUserLocation = () => {
         const { uid } = Firebase.currentUser();
 
         if (uid) {
-          const userData = await Firebase.getUserData(uid);
+          const userData = await Firebase.getUser(uid);
           const updatedUser = userData.data();
 
           // Set a default location as SF
@@ -32,7 +47,7 @@ export const useUserLocation = () => {
       }
     }
     getUser();
-  }, []);
+  }, [focused]);
 
   return user;
 };
