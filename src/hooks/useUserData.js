@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Firebase from '~/services/Firebase';
 
-export const useUserLocation = navigation => {
+export const useUserData = navigation => {
   const [user, onUpdateUser] = useState({});
   const [focused, onFocus] = useState(true);
 
@@ -52,4 +52,4 @@ export const useUserLocation = navigation => {
   return user;
 };
 
-export default useUserLocation;
+export default useUserData;

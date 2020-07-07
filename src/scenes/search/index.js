@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 
 import { Colors } from '~/styles';
-import useUserLocation from '~/hooks/useUserLocation';
+import useUserData from '~/hooks/useUserData';
 import useSearchPlaces from '~/hooks/useSearchPlaces';
 import SearchInput from './components/SearchInput';
 import SearchResults from './components/SearchResults';
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 const Search = ({ navigation }) => {
   const [searchText, onChangeText] = useState(INITIAL_SEARCH_INPUT);
   const [restaurants, onUpdateSearchResults] = useState([]);
-  const { geoLocation } = useUserLocation(navigation);
+  const { geoLocation } = useUserData(navigation);
   const restaurantData = useSearchPlaces(geoLocation);
 
   useEffect(() => {

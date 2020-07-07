@@ -2,7 +2,7 @@ import React from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
 
 import TopBar from '~/components/TopBar';
-import useUserLocation from '~/hooks/useUserLocation';
+import useUserData from '~/hooks/useUserData';
 import useSearchPlaces from '~/hooks/useSearchPlaces';
 import { Colors } from '~/styles';
 import { navigationPropTypes } from '~/types';
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 });
 
 export default function Home({ navigation }) {
-  const { location, geoLocation } = useUserLocation(navigation);
+  const { location, geoLocation } = useUserData(navigation);
   const restaurantData = useSearchPlaces(geoLocation);
 
   return (

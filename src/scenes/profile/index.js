@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, View } from 'react-native';
 
 import Google from '~/services/Google';
 import Firebase from '~/services/Firebase';
-import useUserLocation from '~/hooks/useUserLocation';
+import useUserData from '~/hooks/useUserData';
 import { Spacing } from '~/styles';
 import { navigationPropTypes } from '~/types';
 
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 const Profile = ({ navigation }) => {
   const [isLocationModalOpen, toggleLocationModal] = useState(false);
   const [updateLocation, onLocationInput] = useState('');
-  const user = useUserLocation(navigation);
+  const user = useUserData(navigation);
 
   async function onSubmitLocationChange() {
     try {

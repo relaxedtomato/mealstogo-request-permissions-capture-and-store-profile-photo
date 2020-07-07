@@ -44,6 +44,7 @@ const CloseByRestaurant = ({ openRestaurant, item: restaurant }) => (
         name: restaurant.name,
         cuisine: restaurant.cuisine,
         vicinity: restaurant.vicinity,
+        placeId: restaurant.place_id,
       })
     }
   >

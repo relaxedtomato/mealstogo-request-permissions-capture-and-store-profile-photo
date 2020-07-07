@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
 });
 
 const RestaurantList = ({ openRestaurant, restaurantData }) => {
-  // const restaurantData = useSearchPlaces(geoLocation);
   return (
     <View style={styles.container}>
       <SectionList

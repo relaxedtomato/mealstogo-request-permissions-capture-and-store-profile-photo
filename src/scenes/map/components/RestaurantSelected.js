@@ -53,6 +53,7 @@ const RestaurantSelected = ({ restaurant, openRestaurant }) => (
         name: restaurant.name,
         cuisine: restaurant.cuisine,
         vicinity: restaurant.vicinity,
+        placeId: restaurant.place_id,
       })
     }
     activeOpacity={0.8}

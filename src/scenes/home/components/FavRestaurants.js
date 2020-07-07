@@ -80,6 +80,7 @@ const FavRestaurants = ({ item: restaurants, openRestaurant }) => {
                   name: firstRestaurant.name,
                   cuisine: firstRestaurant.cuisine,
                   vicinity: firstRestaurant.vicinity,
+                  placeId: firstRestaurant.place_id,
                 })
               }
               activeOpacity={0.8}
@@ -97,6 +98,7 @@ const FavRestaurants = ({ item: restaurants, openRestaurant }) => {
                     name: secondRestaurant.name,
                     cuisine: secondRestaurant.cuisine,
                     vicinity: secondRestaurant.vicinity,
+                    placeId: secondRestaurant.place_id,
                   })
                 }
                 activeOpacity={0.8}

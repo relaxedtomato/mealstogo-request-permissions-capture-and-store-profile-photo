@@ -43,6 +43,7 @@ const SearchResults = ({ restaurants, openRestaurant }) => (
             name: restaurant.name,
             cuisine: restaurant.cuisine,
             vicinity: restaurant.vicinity,
+            placeId: restaurant.place_id,
           })
         }
       />

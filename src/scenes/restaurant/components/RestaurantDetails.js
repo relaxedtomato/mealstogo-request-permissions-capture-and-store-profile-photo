@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Image,
   Platform,
@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
+import Firebase from '~/services/Firebase';
+import useUserData from '~/hooks/useUserData';
 import { Colors, Typography, Spacing } from '~/styles';
 import BackArrow from '~/assets/icons/back-arrow.svg';
 import Fav from '~/assets/icons/heart.svg';
@@ -81,9 +83,26 @@ const styles = StyleSheet.create({
 
 const RestaurantDetails = ({ route, navigation }) => {
   const { width: iconWidth, height: iconHeight } = ICON_DIMENSIONS;
-  // TODO: temporary, connect to database later
   const [isFav, onFav] = useState(false);
-  const { image, name, cuisine, vicinity } = route.params.details;
+  const { image, name, cuisine, vicinity, placeId } = route.params.details;
+  const { fav } = useUserData(navigation);
+
+  useEffect(() => {
+    if (fav && fav.includes(placeId)) {
+      onFav(true);
+    }
+  }, [fav]);
+
+  const selectedFav = () => {
+    const { uid } = Firebase.currentUser();
+    if (isFav) {
+      Firebase.removeFav({ uid }, placeId);
+    } else {
+      Firebase.addFav({ uid }, placeId);
+    }
+    // optimisticly update fav icon
+    onFav(isFav => !isFav);
+  };
 
   return (
     <View>
@@ -92,7 +111,7 @@ const RestaurantDetails = ({ route, navigation }) => {
         style={styles.favBackground}
         hitSlop={{ top: 50, left: 50, bottom: 50, right: 50 }}
         activeOpacity={0.8}
-        onPress={() => onFav(!isFav)}
+        onPress={selectedFav}
       >
         {isFav ? (
           <FavSelected
