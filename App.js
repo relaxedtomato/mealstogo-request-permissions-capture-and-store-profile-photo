@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Firebase from '~/services/Firebase';
+import Loading from '~/scenes/loading';
 import Home from '~/scenes/home';
 import Search from '~/scenes/search';
 import Profile from '~/scenes/profile';
@@ -83,15 +84,17 @@ export default class App extends React.Component {
 
     try {
       Firebase.onAuthStateChanged(user => {
-        this.setState({
-          isAuthCheckCompleted: true,
-        });
-
-        if (user) {
-          this.setState({ user });
-        } else {
-          this.setState({ user: false });
-        }
+        // Temporary delay show App Loading
+        setTimeout(() => {
+          this.setState({
+            isAuthCheckCompleted: true,
+          });
+          if (user) {
+            this.setState({ user });
+          } else {
+            this.setState({ user: false });
+          }
+        }, 1500);
       });
     } catch (firebaseError) {
       // eslint-disable-next-line
@@ -117,6 +120,8 @@ export default class App extends React.Component {
           <RootStack.Screen name="RestaurantModal" component={Restaurant} />
         </RootStack.Navigator>
       </NavigationContainer>
-    ) : null;
+    ) : (
+      <Loading />
+    );
   }
 }

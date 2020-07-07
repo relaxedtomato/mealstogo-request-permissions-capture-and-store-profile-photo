@@ -11,7 +11,7 @@ const Firebase = {
       .firestore()
       .collection('users')
       .doc(`${data.uid}`)
-      .set(data),
+      .set({ fav: [], ...data }),
 
   createUserWithEmailAndPassword: ({ email, password }) =>
     firebase.auth().createUserWithEmailAndPassword(email, password),
@@ -38,6 +38,24 @@ const Firebase = {
       .collection('users')
       .doc(uid)
       .get(),
+
+  addFav: ({ uid }, placeId) =>
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(uid)
+      .update({
+        fav: firebase.firestore.FieldValue.arrayUnion(placeId),
+      }),
+
+  removeFav: ({ uid }, placeId) =>
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(uid)
+      .update({
+        fav: firebase.firestore.FieldValue.arrayRemove(placeId),
+      }),
 };
 
 export default Firebase;
