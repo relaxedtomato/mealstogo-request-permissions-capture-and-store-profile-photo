@@ -16,17 +16,20 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: 10,
     elevation: 2,
+    height: 155,
   },
   image: {
     width: 150,
     height: 100,
     margin: Spacing.small,
+    marginBottom: Spacing.xsmall,
     borderRadius: 10,
   },
   name: {
     ...Typography.bodyText,
     margin: Spacing.small,
     fontFamily: 'lora-bold',
+    width: 140,
   },
   swiper: {
     height: 160,
@@ -65,7 +68,12 @@ const FavRestaurants = ({ item: restaurants, openRestaurant }) => {
   );
 
   return (
-    <Swiper showsPagination={false} style={styles.swiper}>
+    <Swiper
+      showsPagination={false}
+      style={styles.swiper}
+      index={0}
+      loop={false}
+    >
       {favDataGrid.map(section => {
         const [firstRestaurant, secondRestaurant] = section;
 

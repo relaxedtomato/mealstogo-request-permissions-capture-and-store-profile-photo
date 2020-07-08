@@ -3,7 +3,7 @@ import Firebase from '~/services/Firebase';
 
 export const useUserData = navigation => {
   const [user, onUpdateUser] = useState({});
-  const [focused, onFocus] = useState(true);
+  const [focused, onFocus] = useState();
 
   useEffect(() => {
     const unsubscribeBlur = navigation.addListener('blur', () =>
@@ -36,7 +36,6 @@ export const useUserData = navigation => {
             };
             updatedUser.location = 'San Francisco';
           }
-
           if (user.location !== updatedUser.location) {
             onUpdateUser(updatedUser);
           }

@@ -56,6 +56,22 @@ const Firebase = {
       .update({
         fav: firebase.firestore.FieldValue.arrayRemove(placeId),
       }),
+
+  addProfileImage: async ({ uid }, imageBlob) => {
+    const imageRef = firebase
+      .storage()
+      .ref()
+      .child(uid);
+
+    return imageRef.put(imageBlob);
+  },
+
+  getProfileImage: ({ uid }) =>
+    firebase
+      .storage()
+      .ref()
+      .child(`${uid}`)
+      .getDownloadURL(),
 };
 
 export default Firebase;

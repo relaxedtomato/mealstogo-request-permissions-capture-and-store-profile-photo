@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 });
 
 export default function Home({ navigation }) {
-  const { location, geoLocation } = useUserData(navigation);
+  const { location, geoLocation, fav } = useUserData(navigation);
   const restaurantData = useSearchPlaces(geoLocation);
 
   return (
@@ -46,6 +46,7 @@ export default function Home({ navigation }) {
           }
           geoLocation={geoLocation}
           restaurantData={restaurantData}
+          fav={fav}
         />
       </View>
     </SafeAreaView>
